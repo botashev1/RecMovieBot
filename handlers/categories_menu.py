@@ -24,18 +24,17 @@ async def send_categories_menu(dp, user_id):
 
 async def catch_categories_menu_requests(dp: Dispatcher, call):
     user_id, action = call.data.split('_')
-    match action:
-        case 'backToGA':
-            await handlers.start.start(dp, call.message)
-        case 'popular':
-            film = await movie.get_next_movie('popular')
-            await send_movie_menu(dp, user_id, film, 'popular')
-        case 'best':
-            film = await movie.get_next_movie('best')
-            await send_movie_menu(dp, user_id, film, 'best')
-        case 'latest':
-            film = await movie.get_next_movie('latest')
-            await send_movie_menu(dp, user_id, film, 'latest')
+    if action == 'backToGA':
+        await handlers.start.start(dp, call.message)
+    elif action == 'popular':
+        film = await movie.get_next_movie('popular')
+        await send_movie_menu(dp, user_id, film, 'popular')
+    elif action == 'best':
+        film = await movie.get_next_movie('best')
+        await send_movie_menu(dp, user_id, film, 'best')
+    elif action == 'latest':
+        film = await movie.get_next_movie('latest')
+        await send_movie_menu(dp, user_id, film, 'latest')
     try:
         await call.message.delete()
     except exceptions.MessageToDeleteNotFound:

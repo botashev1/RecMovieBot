@@ -30,14 +30,13 @@ async def catch_user_mark(dp: Dispatcher, call):
     data = call.data.split('_')
     action = data[1]
     await call.message.delete()
-    match action:
-        case 'backToMovie':
-            user_id, action, film_id, category = data
-            await handlers.movie_menu.send_movie_menu(dp, user_id, movie.get_by_id(film_id), category)
-        case 'mark':
-            user_id, action, mark, film_id, category = data
-            await movie.post_mark(user_id, film_id, mark)
-            await handlers.movie_menu.send_movie_menu(dp, user_id, movie.get_by_id(film_id), category, send_estimate=False)
+    if action == 'backToMovie':
+        user_id, action, film_id, category = data
+        await handlers.movie_menu.send_movie_menu(dp, user_id, movie.get_by_id(film_id), category)
+    elif action == 'mark':
+        user_id, action, mark, film_id, category = data
+        await movie.post_mark(user_id, film_id, mark)
+        await handlers.movie_menu.send_movie_menu(dp, user_id, movie.get_by_id(film_id), category, send_estimate=False)
 
 
 def register_estimate_menu(dp: Dispatcher):

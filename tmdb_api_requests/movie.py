@@ -10,31 +10,30 @@ def movies(category):
     mx = 500
     page = random.randint(1, mx)
 
-    match category:
-        case 'popular':
-            while page <= mx:
-                for film in tmdb.Movies().popular(language='ru', page=page)['results']:
-                    yield film
+    if category == 'popular':
+        while page <= mx:
+            for film in tmdb.Movies().popular(language='ru', page=page)['results']:
+                yield film
 
-                page += 1
-                if page > mx:
-                    page = 1
-        case 'best':
-            while page <= mx:
-                for film in tmdb.Movies().top_rated(language='ru', page=page)['results']:
-                    yield film
+            page += 1
+            if page > mx:
+                page = 1
+    elif category == 'best':
+        while page <= mx:
+            for film in tmdb.Movies().top_rated(language='ru', page=page)['results']:
+                yield film
 
-                page += 1
-                if page > mx:
-                    page = 1
-        case 'latest':
-            while page <= mx:
-                for film in tmdb.Movies().upcoming(language='ru', page=page)['results']:
-                    yield film
+            page += 1
+            if page > mx:
+                page = 1
+    elif category == 'latest':
+        while page <= mx:
+            for film in tmdb.Movies().upcoming(language='ru', page=page)['results']:
+                yield film
 
-                page += 1
-                if page > mx:
-                    page = 1
+            page += 1
+            if page > mx:
+                page = 1
 
 
 GET_POPULAR = movies('popular')
@@ -43,13 +42,12 @@ GET_LATEST = movies('latest')
 
 
 async def get_next_movie(category):
-    match category:
-        case 'popular':
-            return next(GET_POPULAR)
-        case 'best':
-            return next(GET_BEST)
-        case 'latest':
-            return next(GET_LATEST)
+    if category == 'popular':
+        return next(GET_POPULAR)
+    elif category == 'best':
+        return next(GET_BEST)
+    elif category == 'latest':
+        return next(GET_LATEST)
 
 
 def get_genres():
