@@ -95,30 +95,28 @@ async def send_short_movie_menu(call, dp: Dispatcher = None, user_id=None, movie
 async def catch_movie_menu_requests(dp: Dispatcher, call):
     action = list(call.data.split('_'))
     user_id, act = action[0], action[1]
-    match act:
-        case 'backToCategory':
-            await call.message.delete()
-            await handlers.categories_menu.send_categories_menu(dp, user_id)
-        case 'estimate':
-            user_id, act, film_id, category = action
-            await send_estimate_menu(call, user_id, film_id, category)
-        case 'add':
-            await call.message.delete()
-            user_id, act, movie_id, category = action
-            await send_movie_menu(dp, user_id, movie.get_by_id(movie_id), category, send_add=False)
-            await json_requests.add_movie(user_id, movie_id)
+    if act == 'backToCategory':
+        await call.message.delete()
+        await handlers.categories_menu.send_categories_menu(dp, user_id)
+    elif act == 'estimate':
+        user_id, act, film_id, category = action
+        await send_estimate_menu(call, user_id, film_id, category)
+    elif act == 'add':
+        await call.message.delete()
+        user_id, act, movie_id, category = action
+        await send_movie_menu(dp, user_id, movie.get_by_id(movie_id), category, send_add=False)
+        await json_requests.add_movie(user_id, movie_id)
 
 
 async def catch_user_list(dp: Dispatcher, call):
     action, user_id, movie_id = call.data.split('_')
-    match action:
-        case 'moreInfo':
-            await send_more_info_movie_menu(call)
-        case 'hide':
-            await send_short_movie_menu(call)
-        case 'deleteFromList':
-            await json_requests.remove_movie(user_id, movie_id)
-            await call.message.delete()
+    if action == 'moreInfo':
+        await send_more_info_movie_menu(call)
+    elif action == 'hide':
+        await send_short_movie_menu(call)
+    elif action == 'deleteFromList':
+        await json_requests.remove_movie(user_id, movie_id)
+        await call.message.delete()
 
 
 def register_movie_menu(dp: Dispatcher):
