@@ -13,7 +13,7 @@ from users import json_requests
 
 async def start(dp: Dispatcher, message: types.Message):
     menu_markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
-    menu_markup.add(button_names.menu['start'], button_names.menu['getList'],)
+    menu_markup.add(button_names.menu['start'], button_names.menu['getList'], )
     menu_markup.add(button_names.menu['ratedMovies'], button_names.menu['feedback'], )
 
     await dp.bot.send_message(message.chat.id, messages.hello_message, reply_markup=menu_markup)

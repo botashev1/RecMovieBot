@@ -46,7 +46,6 @@ async def add_movie(user_id, movie_id) -> bool:
     if len(user_lists[str(user_id)]) <= 50:
         user_lists[str(user_id)][str(movie_id)] = True
 
-
     with open("users/user_lists.json", "w") as file:
         json.dump(user_lists, file)
         return True
@@ -62,6 +61,7 @@ async def remove_movie(user_id, movie_id) -> bool:
         with open("users/user_lists.json", "w") as file:
             json.dump(user_list, file)
             return True
+
 
 async def get_movie_list(user_id) -> list:
     with open("users/user_lists.json", "r") as json_user_lists:

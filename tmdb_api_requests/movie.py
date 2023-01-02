@@ -80,7 +80,6 @@ async def get_user_rated_movies(user_id, page=1):
         res.append((film['title'], film['rating']))
     return res
 
-
 # a = tmdb.Movies(id=453).rating_delete(guest_session_id='83072a3395ea9651c21d7e99eb036203')
 # print(a)
 

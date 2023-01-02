@@ -4,6 +4,7 @@ from aiogram import Bot, Dispatcher, executor
 
 from handlers.register_all_handlers import register_all_handlers
 
+
 def register_all(dp: Dispatcher):
     register_all_handlers(dp)
 

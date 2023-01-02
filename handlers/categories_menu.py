@@ -14,7 +14,7 @@ async def send_categories_menu(dp, user_id):
     categories_menu = types.InlineKeyboardMarkup(resize_keyboard=True)
     categories_menu_buttons = [
         types.InlineKeyboardButton(button_names.categories[key],
-                                       callback_data='_'.join([str(user_id), key]))
+                                   callback_data='_'.join([str(user_id), key]))
         for key in button_names.categories
     ]
     categories_menu.add(*categories_menu_buttons[:2])
@@ -39,6 +39,7 @@ async def catch_categories_menu_requests(dp: Dispatcher, call):
         await call.message.delete()
     except exceptions.MessageToDeleteNotFound:
         pass
+
 
 def register_movie_menu(dp: Dispatcher):
     dp.register_callback_query_handler(decorators.send_other_args(dp)(catch_categories_menu_requests),
